@@ -19,9 +19,8 @@ public class TyrantStarringSimulator {
     public static void main(String[] args) {
         int startStar;
         int endStar;
-        int boomCount = 0;
-        int trials = 0;
-        int aggregateTrials = 0, aggregateBooms = 0;
+        int boomCount = 0, trials = 0, aggregateBooms = 0;
+        long aggregateTrials = 0l;
         
         Scanner scan = new Scanner(System.in);
         
@@ -34,10 +33,16 @@ public class TyrantStarringSimulator {
         
         System.out.println("Please enter the number of simulations to run: ");
         int simulations = scan.nextInt();
-                
+        
+        int failCount = 0;
+        
         for (int i = 0; i < simulations; i++) {
             while (startStar != endStar) {            
-                int result = StarTyrant(startStar);
+                int result = StarTyrant(startStar, failCount);
+                if (result > startStar)
+                    failCount = 0;
+                if (result <= startStar)
+                    failCount++;
                 if ((startStar - result) > 2 )
                     boomCount++;            
                 startStar = result;
@@ -59,6 +64,7 @@ public class TyrantStarringSimulator {
             trials = 0;
             startStar = startStarOriginal;
         }
+        
         double averageTrials = (double) aggregateTrials / simulations;
         double averageBooms = (double) aggregateBooms / simulations;
         long averageMesos = (long) averageTrials*55832200;
@@ -74,127 +80,128 @@ public class TyrantStarringSimulator {
                 + "from https://forum.nexoneu.com/showthread.php?1473734-Starforce-rates");
     }
         
-    public static int StarTyrant(int startStar) {
+    public static int StarTyrant(int startStar, int failCount) {
         int chance = (int) ((Math.random()*1000)+ 1);        
         int endStar = 0;
         
-        switch (startStar) {
-            case 0:
-                if (chance <= 500)
-                    endStar = ++startStar;
-                else
-                    endStar = 0;
-                break;
-            case 1:                
-                if (chance <= 500)
-                    endStar = ++startStar;
-                else
-                    endStar = --startStar;
-                break;
-            case 2:
-                if (chance <= 450)
-                    endStar = ++startStar;
-                else
-                    endStar = --startStar;
-                break;
-            case 3:
-                if (chance <= 400)
-                    endStar = ++startStar;
-                else
-                    endStar = --startStar;
-                break;
-            case 4:
-                if (chance <= 400)
-                    endStar = ++startStar;
-                else
-                    endStar = --startStar;
-                break;
-            case 5:
-                if (chance <= 400)
-                    endStar = ++startStar;
-                else if (chance > 400 && chance <= 982)
-                    endStar = --startStar;
-                else
-                    endStar = 0;
-                break;
-            case 6:
-                if (chance <= 400)
-                    endStar = ++startStar;
-                else if (chance > 400 && chance <= 970)
-                    endStar = --startStar;
-                else
-                    endStar = 0;
-                break;
-            case 7:
-                if (chance <= 400)
-                    endStar = ++startStar;
-                else if (chance > 400 && chance <= 958)
-                    endStar = --startStar;
-                else
-                    endStar = 0;
-                break;
-            case 8:
-                if (chance <= 400)
-                    endStar = ++startStar;
-                else if (chance > 400 && chance <= 940)
-                    endStar = --startStar;
-                else
-                    endStar = 0;
-                break;
-            case 9:
-                if (chance <= 370)
-                    endStar = ++startStar;
-                else if (chance > 370 && chance <= 905)
-                    endStar = --startStar;
-                else
-                    endStar = 0;
-                break;
-            case 10:
-                if (chance <= 350)
-                    endStar = ++startStar;
-                else if (chance > 350 && chance <= 870)
-                    endStar = --startStar;
-                else
-                    endStar = 0;
-                break;
-            case 11:
-                if (chance <= 350)
-                    endStar = ++startStar;
-                else if (chance > 400 && chance <= 837)
-                    endStar = --startStar;
-                else
-                    endStar = 0;
-                break;
-            case 12:
-                if (chance <= 30)
-                    endStar = ++startStar;
-                else if (chance > 30 && chance <= 515)
-                    endStar = --startStar;
-                else
-                    endStar = 0;
-                break;
-            case 13:
-                if (chance <= 20)
-                    endStar = ++startStar;
-                else if (chance > 20 && chance <= 510)
-                    endStar = --startStar;
-                else
-                    endStar = 0;
-                break;
-            case 14:
-                if (chance <= 10)
-                    endStar = ++startStar;
-                else if (chance > 10 && chance <= 505)
-                    endStar = --startStar;
-                else
-                    endStar = 0;
-                break;
-            default:
-                break;
+        if (failCount == 2)
+            endStar = ++startStar;
+        else {
+            switch (startStar) {
+                case 0:
+                    if (chance <= 500)
+                        endStar = ++startStar;
+                    else
+                        endStar = 0;
+                    break;
+                case 1:                
+                    if (chance <= 500)
+                        endStar = ++startStar;
+                    else
+                        endStar = --startStar;
+                    break;
+                case 2:
+                    if (chance <= 450)
+                        endStar = ++startStar;
+                    else
+                        endStar = --startStar;
+                    break;
+                case 3:
+                    if (chance <= 400)
+                        endStar = ++startStar;
+                    else
+                        endStar = --startStar;
+                    break;
+                case 4:
+                    if (chance <= 400)
+                        endStar = ++startStar;
+                    else
+                        endStar = --startStar;
+                    break;
+                case 5:
+                    if (chance <= 400)
+                        endStar = ++startStar;
+                    else if (chance > 400 && chance <= 982)
+                        endStar = --startStar;
+                    else
+                        endStar = 0;
+                    break;
+                case 6:
+                    if (chance <= 400)
+                        endStar = ++startStar;
+                    else if (chance > 400 && chance <= 970)
+                        endStar = --startStar;
+                    else
+                        endStar = 0;
+                    break;
+                case 7:
+                    if (chance <= 400)
+                        endStar = ++startStar;
+                    else if (chance > 400 && chance <= 958)
+                        endStar = --startStar;
+                    else
+                        endStar = 0;
+                    break;
+                case 8:
+                    if (chance <= 400)
+                        endStar = ++startStar;
+                    else if (chance > 400 && chance <= 940)
+                        endStar = --startStar;
+                    else
+                        endStar = 0;
+                    break;
+                case 9:
+                    if (chance <= 370)
+                        endStar = ++startStar;
+                    else if (chance > 370 && chance <= 905)
+                        endStar = --startStar;
+                    else
+                        endStar = 0;
+                    break;
+                case 10:
+                    if (chance <= 350)
+                        endStar = ++startStar;
+                    else if (chance > 350 && chance <= 870)
+                        endStar = --startStar;
+                    else
+                        endStar = 0;
+                    break;
+                case 11:
+                    if (chance <= 350)
+                        endStar = ++startStar;
+                    else if (chance > 400 && chance <= 837)
+                        endStar = --startStar;
+                    else
+                        endStar = 0;
+                    break;
+                case 12:
+                    if (chance <= 30)
+                        endStar = ++startStar;
+                    else if (chance > 30 && chance <= 515)
+                        endStar = --startStar;
+                    else
+                        endStar = 0;
+                    break;
+                case 13:
+                    if (chance <= 20)
+                        endStar = ++startStar;
+                    else if (chance > 20 && chance <= 510)
+                        endStar = --startStar;
+                    else
+                        endStar = 0;
+                    break;
+                case 14:
+                    if (chance <= 10)
+                        endStar = ++startStar;
+                    else if (chance > 10 && chance <= 505)
+                        endStar = --startStar;
+                    else
+                        endStar = 0;
+                    break;
+                default:
+                    break;
+            }
         }
         return endStar;
     }
-    
-
 }
-
