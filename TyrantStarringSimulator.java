@@ -41,7 +41,7 @@ public class TyrantStarringSimulator {
                 int result = StarTyrant(startStar, failCount);
                 if (result > startStar)
                     failCount = 0;
-                if (result <= startStar)
+                if (result < startStar)
                     failCount++;
                 if ((startStar - result) > 2 )
                     boomCount++;            
@@ -68,8 +68,7 @@ public class TyrantStarringSimulator {
         double averageTrials = (double) aggregateTrials / simulations;
         double averageBooms = (double) aggregateBooms / simulations;
         long averageMesos = (long) averageTrials*55832200;
-            String averageMesosAsString = String.format("%,d", averageMesos);
-        
+            String averageMesosAsString = String.format("%,d", averageMesos);        
         
         System.out.println("Average: To get from " + startStarOriginal + " stars to "
                 + endStar + " stars took an average of " + averageTrials + " attempts with "
