@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tyrantstarringsimulator;
 
 import java.util.Scanner;
@@ -38,7 +33,7 @@ public class TyrantStarringSimulator {
         
         for (int i = 0; i < simulations; i++) {
             while (startStar != endStar) {            
-                int result = StarTyrant(startStar, failCount);
+                int result = starTyrant(startStar, failCount);
                 if (result > startStar)
                     failCount = 0;
                 if (result < startStar)
@@ -79,7 +74,7 @@ public class TyrantStarringSimulator {
                 + "from https://forum.nexoneu.com/showthread.php?1473734-Starforce-rates");
     }
         
-    public static int StarTyrant(int startStar, int failCount) {
+    public static int starTyrant(int startStar, int failCount) {
         int chance = (int) ((Math.random()*1000)+ 1);        
         int endStar = 0;
         
